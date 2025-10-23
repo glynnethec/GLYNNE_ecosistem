@@ -10,7 +10,9 @@ edge-tts
 python-dotenv
 
 # LangChain y conector Groq
-langchain
+
+langchain==0.1.155
+
 langchain-groq
 langchain-core
 
