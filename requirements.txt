@@ -11,7 +11,7 @@ python-dotenv
 
 # LangChain y conector Groq
 
-langchain==0.1.155
+langchain>=0.0.318,<1.0.0
 
 langchain-groq
 langchain-core
