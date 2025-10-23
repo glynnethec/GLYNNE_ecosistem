@@ -13,7 +13,7 @@ python-dotenv
 langchain
 langchain-groq
 langchain-core
-langchain_community
+
 langgraph
 
 # Tipado y validación
