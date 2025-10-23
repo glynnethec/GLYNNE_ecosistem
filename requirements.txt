@@ -1,27 +1,27 @@
 # Framework principal
-fastapi
-uvicorn[standard]
-python-multipart
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+python-multipart==0.0.6
 
 # TTS con Microsoft Edge
-edge-tts
+edge-tts==1.2.0
 
 # Variables de entorno
-python-dotenv
+python-dotenv==1.0.1
 
 # LangChain y conector Groq
-langchain
-langchain-groq
-langchain-core
-langchain_community
-langgraph
+langchain==0.2.14
+langchain-groq==0.1.5
+langchain-core==0.2.28
+langchain-community==0.2.10
+langgraph==0.1.8
 
 # Tipado y validación
-pydantic
-typing-extensions
+pydantic==2.8.2
+typing-extensions==4.9.0
 
 # HTTP requests
-requests
+requests==2.31.0
 
 # Datos y análisis
-pandas
+pandas==2.1.1

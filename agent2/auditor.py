@@ -4,8 +4,7 @@ import json
 from datetime import datetime
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
-from langchain_core.prompts import PromptTemplate
-
+from langchain.prompts import PromptTemplate
 
 # ========================
 # 1. Cargar entorno y API
