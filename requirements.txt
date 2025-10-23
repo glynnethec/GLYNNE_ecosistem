@@ -1,0 +1,27 @@
+# Framework principal
+fastapi
+uvicorn[standard]
+python-multipart
+
+# TTS con Microsoft Edge
+edge-tts
+
+# Variables de entorno
+python-dotenv
+
+# LangChain y conector Groq
+langchain
+langchain-groq
+langchain-core
+langchain_community
+langgraph
+
+# Tipado y validación
+pydantic
+typing-extensions
+
+# HTTP requests
+requests
+
+# Datos y análisis
+pandas

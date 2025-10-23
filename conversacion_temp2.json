@@ -1,0 +1,10 @@
+[
+  {
+    "user": "hola",
+    "ai": "Resumen: El usuario inició la conversación con un saludo. \n¿Cuál es tu nombre?"
+  },
+  {
+    "user": "Hola mi amiguito Cómo estás",
+    "ai": "Te saludaste amistosamente. ¿Cuál es tu nombre?"
+  }
+]

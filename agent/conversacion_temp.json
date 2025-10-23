@@ -1,0 +1,10 @@
+[
+  {
+    "user": "hola",
+    "ai": "¡Hola! ¿En qué tipo de negocio o proyecto estás involucrado?"
+  },
+  {
+    "user": "en rh",
+    "ai": "Entendido, Recursos Humanos. ¿Cuál es el proceso que más te consume el tiempo en tu trabajo diario?"
+  }
+]
