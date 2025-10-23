@@ -9,13 +9,12 @@ edge-tts
 # Variables de entorno
 python-dotenv
 
-# LangChain y conector Groq (versiones fijas para mantener imports)
-langchain==0.2.32
-langchain-core==0.2.32
-langchain-groq==0.1.5
-langchain-community==0.2.10
-langgraph==0.1.8
-
+# LangChain y conector Groq
+langchain
+langchain-groq
+langchain-core
+langchain_community
+langgraph
 
 # Tipado y validación
 pydantic
