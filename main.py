@@ -354,16 +354,38 @@ def generar_plan_json():
 
 
 # ========================
-# 18. FUNCIÓN AUXILIAR PARA TTS
+# 18. FUNCIÓN AUXILIAR PARA TTS (corregida)
 # ========================
 async def hablar_async_to_file(texto, filepath):
-    communicate = edge_tts.Communicate(
-        texto,
-        voice="es-CO-SalomeNeural",
-        rate="+18%",
-        pitch="+13Hz"
-    )
-    await communicate.save(filepath)
+    texto = texto.strip()
+    if not texto:
+        raise ValueError("Texto vacío recibido para TTS")
+
+    # Limpieza de caracteres especiales que causan errores en edge-tts
+    texto = texto.replace("“", '"').replace("”", '"').replace("’", "'")
+
+    for intento in range(3):
+        try:
+            communicate = edge_tts.Communicate(
+                texto,
+                voice="es-CO-SalomeNeural",  # Puedes probar "es-MX-DaliaNeural" si sigue fallando en Render
+                rate="+18%",
+                pitch="+13Hz"
+            )
+            await communicate.save(filepath)
+
+            # Verificar si el archivo tiene contenido
+            if not os.path.exists(filepath) or os.path.getsize(filepath) == 0:
+                raise ValueError("Archivo de audio vacío o no generado")
+
+            return  # éxito
+
+        except Exception as e:
+            print(f"⚠️ Error al generar TTS (intento {intento+1}): {e}")
+            if intento < 2:
+                await asyncio.sleep(1)
+                continue
+            raise RuntimeError("❌ Error al generar TTS: No se pudo obtener audio válido")
 
 
 # ========================
@@ -397,12 +419,17 @@ async def conversar(request: Request):
                 "total": len(texto_usuario.split()) + len(respuesta.split())
             }
 
+        # Ruta temporal del audio
         temp_path = os.path.join(tempfile.gettempdir(), f"respuesta_{int(time.time())}.mp3")
+
+        # Generar el audio robustamente
         await hablar_async_to_file(respuesta, temp_path)
 
+        # Leer y convertir a base64
         with open(temp_path, "rb") as f:
             audio_base64 = base64.b64encode(f.read()).decode("utf-8")
 
+        # Eliminar archivo temporal
         try:
             os.remove(temp_path)
         except Exception as e:
