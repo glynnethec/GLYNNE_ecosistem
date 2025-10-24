@@ -3,7 +3,7 @@ uvicorn
 python-multipart
 edge-tts
 python-dotenv
-langchain
+langchain<0.2
 langchain-core
 langchain-community
 langchain-groq
