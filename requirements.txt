@@ -10,13 +10,13 @@ edge-tts
 python-dotenv
 
 # LangChain y conector Groq
+# LangChain + Groq + LangGraph (versiones compatibles entre sí)
+langchain==0.3.3
+langchain-core==0.3.10
+langchain-community==0.3.2
+langchain-groq==0.1.5
+langgraph==0.1.8
 
-langchain>=0.0.318,<1.0.0
-
-langchain-groq
-langchain-core
-
-langgraph
 
 # Tipado y validación
 pydantic
