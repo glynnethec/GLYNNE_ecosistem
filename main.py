@@ -353,48 +353,55 @@ def generar_plan_json():
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
 
 
+# ========================
+# 18. FUNCIÓN AUXILIAR PARA TTS
+# ========================
 async def hablar_async_to_file(texto, filepath):
-    try:
-        communicate = edge_tts.Communicate(
-            texto,
-            voice="es-CO-SalomeNeural",
-            rate="+18%",
-            pitch="+13Hz"
-        )
-        await communicate.save(filepath)
-    except Exception as e:
-        print(f"❌ Error al generar TTS: {e}")
-        with open(filepath, "wb") as f:
-            f.write(b"")  # evita fallo si el archivo no existe
+    communicate = edge_tts.Communicate(
+        texto,
+        voice="es-CO-SalomeNeural",
+        rate="+18%",
+        pitch="+13Hz"
+    )
+    await communicate.save(filepath)
 
 
+# ========================
+# 19. Endpoint Conversar TTS (agentTTS)
+# ========================
 @app.post("/conversar", response_model=ConversarResponse)
 async def conversar(request: Request):
+    """
+    Procesa el texto del usuario con el agente TTS, genera audio TTS
+    de la respuesta y la devuelve en formato base64.
+    """
     try:
         data = await request.json()
         texto_usuario = data.get("texto")
-        session_id = data.get("session_id", "default_session")
+        session_id = data.get("session_id")
 
-        if not texto_usuario or not texto_usuario.strip():
+        if not texto_usuario or not isinstance(texto_usuario, str) or not texto_usuario.strip():
             return JSONResponse(content={"error": "No se recibió texto válido"}, status_code=400)
 
-        print(f"🧠 Procesando mensaje: {texto_usuario}")
+        if not session_id:
+            session_id = "default_session"
 
         resultado = await responder_asistente(texto_usuario.strip(), session_id)
-        respuesta, tokens_info = (
-            resultado if isinstance(resultado, tuple)
-            else (resultado, {"usuario": len(texto_usuario.split()), "llm": len(str(resultado).split()), "total": len(texto_usuario.split()) + len(str(resultado).split())})
-        )
+        if isinstance(resultado, tuple):
+            respuesta, tokens_info = resultado
+        else:
+            respuesta = resultado
+            tokens_info = {
+                "usuario": len(texto_usuario.split()),
+                "llm": len(respuesta.split()),
+                "total": len(texto_usuario.split()) + len(respuesta.split())
+            }
 
         temp_path = os.path.join(tempfile.gettempdir(), f"respuesta_{int(time.time())}.mp3")
         await hablar_async_to_file(respuesta, temp_path)
 
-        if os.path.exists(temp_path):
-            with open(temp_path, "rb") as f:
-                audio_base64 = base64.b64encode(f.read()).decode("utf-8")
-        else:
-            print("⚠️ Archivo TTS no generado.")
-            audio_base64 = ""
+        with open(temp_path, "rb") as f:
+            audio_base64 = base64.b64encode(f.read()).decode("utf-8")
 
         try:
             os.remove(temp_path)
@@ -412,6 +419,7 @@ async def conversar(request: Request):
         print("❌ Error en /conversar endpoint:")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
 
 # ========================
 # 20. Funciones Auxiliares del Agente CSV (Extraídas de agentsCSV/p1.py)
