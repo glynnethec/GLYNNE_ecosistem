@@ -1,29 +1,14 @@
-# Framework principal
 fastapi
-uvicorn[standard]
+uvicorn
 python-multipart
-
-# TTS con Microsoft Edge
 edge-tts
-
-# Variables de entorno
 python-dotenv
-
-# LangChain y conector Groq
-# LangChain + Groq + LangGraph (versiones compatibles entre sí)
-langchain==0.3.3
-langchain-core==0.3.10
-langchain-community==0.3.2
-langchain-groq==0.1.5
-langgraph==0.1.8
-
-
-# Tipado y validación
+langchain
+langchain-core
+langchain-community
+langchain-groq
+langgraph
 pydantic
 typing-extensions
-
-# HTTP requests
 requests
-
-# Datos y análisis
 pandas

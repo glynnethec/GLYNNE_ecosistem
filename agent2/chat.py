@@ -7,8 +7,9 @@ from datetime import datetime
 from langgraph.graph import StateGraph, END
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
+from langchain.memory import ConversationBufferMemory
 
-from langchain.memory.buffer import ConversationBufferMemory
+
 
 
 # ========================
