@@ -217,21 +217,53 @@ def reset_all():
 activo = True
 
 async def hablar_async_to_file(texto, filepath):
-    """Convierte texto a audio usando Edge-TTS"""
-    texto = texto.strip()
-    if not texto:
-        raise ValueError("Texto vacío recibido para TTS")
+    """Convierte texto a audio usando Edge-TTS con validación y logs"""
+    try:
+        texto = texto.strip()
+        if not texto:
+            raise ValueError("Texto vacío recibido para TTS")
 
-    texto = texto.replace("“", '"').replace("”", '"').replace("’", "'")
+        # Limpieza preventiva
+        texto = (
+            texto.replace("“", '"')
+            .replace("”", '"')
+            .replace("’", "'")
+            .replace("•", "")
+            .replace("*", "")
+        )
 
-    communicate = edge_tts.Communicate(
-        texto,
-        voice="es-CO-SalomeNeural",
-        rate="+18%",
-        pitch="+13Hz",
-    )
-    await communicate.save(filepath)
+        print("🧩 [TTS] Texto recibido:", texto[:120], "..." if len(texto) > 120 else "")
 
+        # Comprobación de permisos de escritura
+        temp_dir = os.path.dirname(filepath)
+        if not os.path.exists(temp_dir):
+            os.makedirs(temp_dir, exist_ok=True)
+
+        # Crear instancia TTS
+        communicate = edge_tts.Communicate(
+            texto,
+            voice="es-CO-SalomeNeural",
+            rate="+18%",
+            pitch="+13Hz",
+        )
+
+        # Guardar audio temporalmente
+        await communicate.save(filepath)
+
+        # Verificar tamaño del archivo
+        if not os.path.exists(filepath):
+            raise RuntimeError("Archivo de audio no se creó")
+
+        size = os.path.getsize(filepath)
+        print(f"✅ [TTS] Archivo generado ({size} bytes) → {filepath}")
+
+        if size < 2000:  # archivo muy pequeño
+            raise RuntimeError(f"Archivo de audio sospechosamente pequeño: {size} bytes")
+
+    except Exception as e:
+        print("❌ [TTS] Error:", str(e))
+        traceback.print_exc()
+        raise RuntimeError(f"❌ Error al generar TTS: {str(e)}")
 
 @app.post("/conversar")
 async def conversar(request: Request):
