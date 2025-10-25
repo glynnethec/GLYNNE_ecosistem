@@ -265,6 +265,7 @@ async def hablar_async_to_file(texto, filepath):
         traceback.print_exc()
         raise RuntimeError(f"❌ Error al generar TTS: {str(e)}")
 
+
 @app.post("/conversar")
 async def conversar(request: Request):
     """Convierte en tiempo real la respuesta del agente TTS"""
@@ -272,6 +273,7 @@ async def conversar(request: Request):
     if not activo:
         return JSONResponse(content={"error": "Servicio desactivado temporalmente"}, status_code=503)
 
+    temp_path = None
     try:
         data = await request.json()
         texto_usuario = data.get("texto", "").strip()
@@ -279,7 +281,9 @@ async def conversar(request: Request):
         if not texto_usuario:
             return JSONResponse(content={"error": "No se recibió texto válido"}, status_code=400)
 
-        session_id = "default_session"
+        session_id = data.get("session_id", "default_session")
+
+        # Obtener respuesta del agente TTS (puede ser sync o async dentro del módulo)
         resultado = await responder_asistente(texto_usuario, session_id)
 
         if isinstance(resultado, tuple):
@@ -292,14 +296,41 @@ async def conversar(request: Request):
                 "total": len(texto_usuario.split()) + len(respuesta.split()),
             }
 
+        # Preparar ruta temporal
         temp_path = os.path.join(tempfile.gettempdir(), f"tts_{int(time.time())}.mp3")
-        await hablar_async_to_file(respuesta, temp_path)
+
+        # --- EJECUCIÓN SEGURA DE TTS EN EL EVENT LOOP ACTIVO ---
+        # Usamos ensure_future sobre el loop en ejecución para evitar errores
+        # "Cannot run the event loop while another loop is running" en entornos como Render.
+        try:
+            loop = asyncio.get_running_loop()
+            # schedule the coroutine and await it to propagate exceptions
+            task = asyncio.ensure_future(hablar_async_to_file(respuesta, temp_path))
+            await task
+        except RuntimeError as e_loop:
+            # Si no hay loop en ejecución (raro en FastAPI) o hay otro problema,
+            # intentamos ejecutar en un nuevo loop (fallback seguro para tests locales).
+            print("⚠️ warn: problema con get_running_loop:", str(e_loop))
+            try:
+                new_loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(new_loop)
+                new_loop.run_until_complete(hablar_async_to_file(respuesta, temp_path))
+                new_loop.close()
+                # restore default event loop to prevent side effects
+                asyncio.set_event_loop(None)
+            except Exception as ex_fallback:
+                print("❌ Fallback TTS failed:", str(ex_fallback))
+                traceback.print_exc()
+                raise
+
+        # Leer y codificar audio
+        if not os.path.exists(temp_path):
+            raise RuntimeError("El archivo de audio no fue generado correctamente")
 
         with open(temp_path, "rb") as f:
             audio_base64 = base64.b64encode(f.read()).decode("utf-8")
 
-        os.remove(temp_path)
-
+        # Responder al cliente
         return {
             "transcripcion_usuario": texto_usuario,
             "respuesta_asistente": respuesta,
@@ -310,7 +341,16 @@ async def conversar(request: Request):
     except Exception as e:
         print("❌ Error en /conversar:")
         traceback.print_exc()
+        # devolver un error claro al front y registrar el stack
         return JSONResponse(content={"error": f"Error interno: {str(e)}"}, status_code=500)
+
+    finally:
+        # limpiar archivo temporal si existe
+        try:
+            if temp_path and os.path.exists(temp_path):
+                os.remove(temp_path)
+        except Exception as e_cleanup:
+            print("⚠️ No se pudo eliminar temp file:", temp_path, str(e_cleanup))
 
 
 # =========================================================
