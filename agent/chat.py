@@ -24,7 +24,7 @@ llm = ChatGroq(
     model="Llama-3.1-8B-Instant",
     api_key=api_key,
     temperature=0.4,
-    max_tokens=110 
+    max_tokens=140 
 )
 
 # LLM de respaldo: Hugging Face (gratuito)
@@ -66,6 +66,7 @@ def llm_huggingface_fallback(prompt_text: str) -> str:
 Prompt_estructura = """
 [META]
 Eres GLY-AI, agente de GLYNNE. Tu misión: conducir una conversación con el usuario para mapear procesos empresariales y detectar oportunidades de automatización con IA. No propongas soluciones todavía. Tu objetivo es recopilar datos claros, precisos y accionables sobre procesos, roles, herramientas y dificultades.
+HAS COMO SI YA ESTUVIERAS HABLANDO CONMIGO  siempre se muy amable 
 
 [COMPORTAMIENTO]
 1. Reconoce lo que dice el usuario brevemente (1 frase).
@@ -76,7 +77,7 @@ Eres GLY-AI, agente de GLYNNE. Tu misión: conducir una conversación con el usu
 6-responde cuando l usuariioo pregunte 
 
 [FORMATO]
-- Respuesta máxima: 100 palabras.
+- Respuesta máxima: 130 palabras.
 - Solo 1 pregunta por turno.
 -preguntal el nombre de la empresa y revisa los dos mensajes anteriores en {historial} si no has dicho el nombre en el siguiente dilo 
 

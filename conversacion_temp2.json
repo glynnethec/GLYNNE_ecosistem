@@ -6,5 +6,61 @@
   {
     "user": "Hola mi amiguito Cómo estás",
     "ai": "Te saludaste amistosamente. ¿Cuál es tu nombre?"
+  },
+  {
+    "user": "ok",
+    "ai": "El usuario inició la conversación sin proporcionar información adicional. ¿Cuál es tu nombre?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario responde \"ok\" sin proporcionar más información. ¿Cuál es tu nombre?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario repite \"ok\" sin dar su nombre. ¿Cuál es tu profesión?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Cuál es tu área de interés laboral?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Qué te motiva a explorar la inteligencia artificial en tu vida laboral?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Podrías decirme tu nombre para empezar a conocerte mejor?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Cuál es tu profesión actual?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Cuál es tu nombre para poder continuar la conversación de manera personalizada?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Cuál es tu nombre para poder continuar?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Cuál es tu nombre?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Cuál es tu nombre?"
+  },
+  {
+    "user": "ok",
+    "ai": "Resume: El usuario sigue respondiendo \"ok\" sin proporcionar detalles. ¿Cuál es tu nombre?"
+  },
+  {
+    "user": "hola",
+    "ai": "Me alegra conocerte. ¿Cuál es tu nombre?"
+  },
+  {
+    "user": "hola",
+    "ai": "Me alegra conocerte. ¿Cuál es tu nombre?"
   }
 ]

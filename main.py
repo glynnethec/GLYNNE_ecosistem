@@ -29,6 +29,7 @@ import edge_tts
 from agent.chat import agente_node, get_memory, State, TEMP_JSON_PATH
 from agent.chat1 import agente_node as agente_node_alt, get_memory as get_memory_alt
 from agent.auditor import generar_auditoria as auditor_llm
+
 from agentTTS.chat import responder_asistente
 # ========================
 
@@ -482,6 +483,151 @@ async def procesar_csv(
         print("❌ Error en /procesar-csv endpoint:")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Error al procesar el archivo: {str(e)}")
+# ========================
+# 22. Importaciones del nuevo agente (agent3)
+# ========================
+from agent3.chat import agente_node as agente3_node, get_memory as get_memory3, State as State3, TEMP_JSON_PATH as TEMP_JSON_PATH3
+
+
+# ========================
+# 23. Endpoint principal Chat (agent3/chat.py)
+# ========================
+@app.post("/chat3", response_model=ChatResponse)
+def chat3(request: ChatRequest):
+    """Chat principal basado en agent3/chat.py"""
+    if not request.user_id:
+        raise HTTPException(status_code=400, detail="user_id es obligatorio")
+
+    state: State3 = {
+        "mensaje": request.mensaje,
+        "rol": request.rol,
+        "historial": "",
+        "respuesta": "",
+        "user_id": request.user_id
+    }
+
+    try:
+        result = agente3_node(state)
+        memoria = get_memory3(request.user_id).load_memory_variables({})
+        return ChatResponse(respuesta=result.get("respuesta", ""), historial=memoria)
+    except Exception as e:
+        print("❌ Error en /chat3 endpoint:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error interno en agent3: {str(e)}")
+
+
+# ========================
+# 24. Endpoint para obtener memoria (agent3)
+# ========================
+@app.get("/user3/{user_id}/memory")
+def get_user3_memory(user_id: str):
+    """Obtiene la memoria del usuario en agent3"""
+    try:
+        memoria = get_memory3(user_id).load_memory_variables({})
+        return {"user_id": user_id, "historial": memoria}
+    except Exception as e:
+        print("❌ Error en /user3/{user_id}/memory:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error interno en agent3: {str(e)}")
+
+
+# ========================
+# 25. Endpoint reset de conversación (agent3)
+# ========================
+@app.get("/reset3")
+def reset_conversacion3():
+    """Elimina el JSON temporal y reinicia memoria en agent3"""
+    try:
+        if os.path.exists(TEMP_JSON_PATH3):
+            os.remove(TEMP_JSON_PATH3)
+        with open(TEMP_JSON_PATH3, "w", encoding="utf-8") as f:
+            json.dump([], f)
+
+        try:
+            usuarios = get_memory3.__defaults__[0] if get_memory3.__defaults__ else {}
+            for user_id in list(usuarios.keys()):
+                get_memory3(user_id).clear()
+        except Exception:
+            pass
+
+        return {"status": "ok", "message": "Conversaciones agent3 reiniciadas"}
+    except Exception as e:
+        print("❌ Error en /reset3 endpoint:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+# ========================
+# 26. Importaciones del nuevo agente (agent4)
+# ========================
+from agent4.chat import agente_node as agente4_node, get_memory as get_memory4, State as State4, TEMP_JSON_PATH as TEMP_JSON_PATH4
+
+
+# ========================
+# 27. Endpoint principal Chat (agent4/chat.py)
+# ========================
+@app.post("/chat4", response_model=ChatResponse)
+def chat4(request: ChatRequest):
+    """Chat principal basado en agent4/chat.py"""
+    if not request.user_id:
+        raise HTTPException(status_code=400, detail="user_id es obligatorio")
+
+    state: State4 = {
+        "mensaje": request.mensaje,
+        "rol": request.rol,
+        "historial": "",
+        "respuesta": "",
+        "user_id": request.user_id
+    }
+
+    try:
+        result = agente4_node(state)
+        memoria = get_memory4(request.user_id).load_memory_variables({})
+        return ChatResponse(respuesta=result.get("respuesta", ""), historial=memoria)
+    except Exception as e:
+        print("❌ Error en /chat4 endpoint:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error interno en agent4: {str(e)}")
+
+
+# ========================
+# 28. Endpoint para obtener memoria (agent4)
+# ========================
+@app.get("/user4/{user_id}/memory")
+def get_user4_memory(user_id: str):
+    """Obtiene la memoria del usuario en agent4"""
+    try:
+        memoria = get_memory4(user_id).load_memory_variables({})
+        return {"user_id": user_id, "historial": memoria}
+    except Exception as e:
+        print("❌ Error en /user4/{user_id}/memory:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error interno en agent4: {str(e)}")
+
+
+# ========================
+# 29. Endpoint reset de conversación (agent4)
+# ========================
+@app.get("/reset4")
+def reset_conversacion4():
+    """Elimina el JSON temporal y reinicia memoria en agent4"""
+    try:
+        if os.path.exists(TEMP_JSON_PATH4):
+            os.remove(TEMP_JSON_PATH4)
+        with open(TEMP_JSON_PATH4, "w", encoding="utf-8") as f:
+            json.dump([], f)
+
+        try:
+            usuarios = get_memory4.__defaults__[0] if get_memory4.__defaults__ else {}
+            for user_id in list(usuarios.keys()):
+                get_memory4(user_id).clear()
+        except Exception:
+            pass
+
+        return {"status": "ok", "message": "Conversaciones agent4 reiniciadas"}
+    except Exception as e:
+        print("❌ Error en /reset4 endpoint:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
 
 
 # ========================
