@@ -629,6 +629,10 @@ def reset_conversacion4():
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
 
+@app.get("/health")
+def health():
+    """Endpoint de prueba para despertar el backend"""
+    return {"status": "ok", "mensaje": "Backend listo ✅"}
 
 # ========================
 # 11. Entrypoint Uvicorn
