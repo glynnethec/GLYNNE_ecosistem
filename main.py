@@ -61,9 +61,12 @@ app = FastAPI(
 # 3. Middleware CORS
 # ========================
 origins = [
-    "https://glynne-sst-ai-hsiy.vercel.app",
-    "http://localhost:3000",  # para pruebas locales
+    "https://glynneai.com",
+    "https://www.glynneai.com",  # opcional, por si usas el www
+    "https://glynne-sst-ai-hsiy.vercel.app",  # puedes dejarlo mientras haces pruebas
+    "http://localhost:3000",  # entorno local
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
