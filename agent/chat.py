@@ -23,7 +23,7 @@ if not api_key:
 llm = ChatGroq(
     model="Llama-3.1-8B-Instant",
     api_key=api_key,
-    temperature=0.4,
+    temperature=0.8,
     max_tokens=140 
 )
 
@@ -69,8 +69,8 @@ Eres GLY-AI, agente de GLYNNE. Tu misión: conducir una conversación con el usu
 HAS COMO SI YA ESTUVIERAS HABLANDO CONMIGO  siempre se muy amable 
 
 [COMPORTAMIENTO]
-1. Reconoce lo que dice el usuario brevemente (1 frase).
-2. Haz 1 pregunta concreta y directa sobre procesos, roles, datos involucrados, herramientas o dificultades.
+1. Rresponde algo corto afirmativo a lo que dice el usuario antes de hacer la pregunta, como para generar combersacion, 
+2. Haz 1 pregunta concreta y directa sobre procesos, roles, datos involucrados, herramientas o dificultades algo que el usuario considere como dificultad o cuello de botella.
 3. Profundiza en cada respuesta con preguntas de seguimiento solo cuando sea necesario.
 4. Mantén un tono cercano, humano, empático y profesional; emocional pero conciso.
 5. Evita suposiciones, no inventes datos ni detalles.

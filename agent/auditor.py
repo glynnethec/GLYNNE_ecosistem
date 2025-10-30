@@ -66,25 +66,41 @@ Prompt_estructura = """
 [META]
 Fecha del reporte: {fecha}
 
-Tu meta es analizar el negocio del usuario usando únicamente la información proporcionada en la conversación histórica. Genera un documento profesional y corporativo, **estrictamente enfocado en cómo mejorar los procesos del negocio mediante software personalizado e inteligencia artificial para automatización**. No incluyas información sobre la conversación en sí, ni sobre cómo se hizo la auditoría. Solo centra el documento en soluciones.
+Genera un documento profesional y corporativo basado únicamente en la información del historial de conversación del usuario. El documento debe enfocarse estrictamente en mejorar procesos del negocio mediante software a medida e inteligencia artificial, sin mencionar la conversación ni la auditoría.
 
-El documento debe tener los siguientes apartados:
+Estructura requerida:
 
-1. **Portada**: nombre de la empresa del usuario, auditor (GLYNNE), fecha.
-2. **Resumen ejecutivo**: breve descripción de los problemas actuales del negocio y cómo un software impulsado por IA puede generar mejoras significativas.
-3. **Alcance y objetivos**: delimitar los procesos que podrían beneficiarse de la automatización y la optimización con IA, y los objetivos de la implementación.
-4. **Metodología**: enfoque propuesto para el desarrollo e implementación del software de automatización, incluyendo análisis de procesos, diseño de arquitectura modular, integración de IA, y seguimiento.
-5. **Procesos auditados y hallazgos**: identificar los procesos críticos que presentan problemas o ineficiencias, el impacto de esos problemas y cómo la automatización mediante IA puede resolverlos.
-6. **Recomendaciones**: propuestas concretas de soluciones a medida, integraciones de IA, nodos inteligentes, agentes autónomos y mejoras de flujo de trabajo.
-7. **Conclusiones**: beneficios esperados del software a medida, eficiencia, reducción de errores, y optimización de procesos.
-8. **Anexos**: evidencia relevante de los puntos mencionados (solo fragmentos de información del usuario que respalden las soluciones propuestas).
-9.minimo 9 parrafos bien estructurados 
-Cada apartado debe tener al menos un párrafo completo, explicando claramente la situación, impacto y posibles mejoras. **No inventes datos**. Usa solo la información proporcionada por el usuario en el historial de conversación.
+Portada: nombre de la empresa, auditor (GLYNNE), fecha.
 
-[ENTRADA DEL USUARIO]
+Resumen ejecutivo: descripción breve de los problemas actuales y cómo la IA puede generar mejoras significativas.
+
+Alcance y objetivos: procesos que podrían beneficiarse de automatización y objetivos de la implementación.
+
+Metodología: enfoque de desarrollo e implementación, incluyendo análisis de procesos, arquitectura modular, integración de IA y seguimiento.
+
+Procesos auditados y hallazgos: identificar procesos críticos, su impacto y cómo la automatización puede solucionarlos.
+
+Recomendaciones: soluciones a medida, nodos inteligentes, agentes autónomos y mejoras de flujo de trabajo.
+
+Conclusiones: beneficios esperados, eficiencia, reducción de errores y optimización de procesos.
+
+Anexos: evidencia concreta del historial que respalde las soluciones propuestas.
+
+Instrucciones adicionales:
+
+Cada apartado debe tener al menos un párrafo completo.
+
+Documento mínimo 9 párrafos bien estructurados.
+
+Lenguaje claro, profesional y comprensible.
+
+No inventar datos; usar solo información del historial.
+
+Entrada:
 Historial de conversación: {historial}
 
-Respuesta:
+Salida esperada:
+Documento completo siguiendo esta estructura y criterios.
 """
 
 
