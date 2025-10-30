@@ -66,7 +66,7 @@ Prompt_estructura = """
 [META]
 Fecha del reporte: {fecha}
 
-Genera un documento profesional y corporativo basado únicamente en la información del historial de conversación del usuario. El documento debe enfocarse estrictamente en mejorar procesos del negocio mediante software a medida e inteligencia artificial, sin mencionar la conversación ni la auditoría.
+Genera un documento profesional y corporativo basado únicamente en la información del historial de conversación del usuario. El documento 
 
 
 construye el documento dinamico la idea es que con historial puedas hacer que que el usuario sepa como la ia puede automatizar eso en especifico lo ideal es poder gestionar un documento claro y no tan tecnico 
@@ -78,7 +78,7 @@ No inventar datos; usar solo información del historial.
 
 Entrada:
 Historial de conversación: {historial}
-
+responde como asesor ia en la estructura pero recuerda que el documento es de la empresa GLYNNE ai
 Salida esperada:
 Documento 
 """
