@@ -68,29 +68,9 @@ Fecha del reporte: {fecha}
 
 Genera un documento profesional y corporativo basado únicamente en la información del historial de conversación del usuario. El documento debe enfocarse estrictamente en mejorar procesos del negocio mediante software a medida e inteligencia artificial, sin mencionar la conversación ni la auditoría.
 
-Estructura requerida:
 
-Portada: nombre de la empresa, auditor (GLYNNE), fecha.
+construye el documento dinamico la idea es que con historial puedas hacer que que el usuario sepa como la ia puede automatizar eso en especifico lo ideal es poder gestionar un documento claro y no tan tecnico 
 
-Resumen ejecutivo: descripción breve de los problemas actuales y cómo la IA puede generar mejoras significativas.
-
-Alcance y objetivos: procesos que podrían beneficiarse de automatización y objetivos de la implementación.
-
-Metodología: enfoque de desarrollo e implementación, incluyendo análisis de procesos, arquitectura modular, integración de IA y seguimiento.
-
-Procesos auditados y hallazgos: identificar procesos críticos, su impacto y cómo la automatización puede solucionarlos.
-
-Recomendaciones: soluciones a medida, nodos inteligentes, agentes autónomos y mejoras de flujo de trabajo.
-
-Conclusiones: beneficios esperados, eficiencia, reducción de errores y optimización de procesos.
-
-Anexos: evidencia concreta del historial que respalde las soluciones propuestas.
-
-Instrucciones adicionales:
-
-Cada apartado debe tener al menos un párrafo completo.
-
-Documento mínimo 9 párrafos bien estructurados.
 
 Lenguaje claro, profesional y comprensible.
 
@@ -100,7 +80,7 @@ Entrada:
 Historial de conversación: {historial}
 
 Salida esperada:
-Documento completo siguiendo esta estructura y criterios.
+Documento 
 """
 
 
