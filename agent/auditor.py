@@ -72,7 +72,7 @@ Genera un documento profesional y corporativo basado únicamente en la informaci
 construye el documento dinamico la idea es que con historial puedas hacer que que el usuario sepa como la ia puede automatizar eso en especifico lo ideal es poder gestionar un documento claro y no tan tecnico 
 
 
-Lenguaje claro, profesional y comprensible.
+Lenguaje claro, profesional y comprensible todo muy profesional.
 
 No inventar datos; usar solo información del historial.
 

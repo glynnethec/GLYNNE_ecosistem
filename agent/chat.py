@@ -24,7 +24,7 @@ llm = ChatGroq(
     model="Llama-3.1-8B-Instant",
     api_key=api_key,
     temperature=0.8,
-    max_tokens=140 
+    max_tokens=100 
 )
 
 # LLM de respaldo: Hugging Face (gratuito)
