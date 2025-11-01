@@ -90,8 +90,9 @@ prompt_template = PromptTemplate(
 )
 
 # ========================
-# 4. Función para generar auditoría
+# 4. Función para generar auditoría (OPTIMIZADA)
 # ========================
+
 def generar_auditoria():
     json_path = "conversacion_temp.json"
     if not os.path.exists(json_path):
@@ -101,19 +102,35 @@ def generar_auditoria():
     with open(json_path, "r", encoding="utf-8") as f:
         conversacion = json.load(f)
 
-    # Formatear conversación
-    historial_texto = ""
+    # === 🔹 EXTRAER SOLO MENSAJES DEL USUARIO ===
+    mensajes_usuario = []
     for intercambio in conversacion:
-        historial_texto += f"Usuario: {intercambio.get('user', '')}\n"
-        historial_texto += f"GLY-AI: {intercambio.get('ai', '')}\n"
+        user_msg = intercambio.get("user", "").strip()
+        if user_msg:
+            mensajes_usuario.append(user_msg)
 
-    # Obtener fecha actual
+    # Si no hay mensajes, error
+    if not mensajes_usuario:
+        raise ValueError("No hay mensajes del usuario en el historial para generar la auditoría.")
+
+    # === 🔹 Crear texto del historial solo del usuario ===
+    historial_texto = "\n".join([f"- {msg}" for msg in mensajes_usuario])
+
+    # === 🔹 Contexto previo al modelo ===
+    contexto = (
+        "A continuación se te proporcionan únicamente los mensajes escritos por el usuario. "
+        "El usuario ha hecho preguntas relacionadas con la optimización de procesos empresariales "
+        "y desea construir una guía práctica sobre cómo puede usar la inteligencia artificial "
+        "para mejorar dichos procesos. No estás recibiendo las respuestas anteriores del asistente, "
+        "solo las preguntas del usuario.\n\n"
+        "Mensajes del usuario:\n"
+    )
+
+    # === 🔹 Construir prompt completo ===
     fecha_actual = datetime.now().strftime("%d/%m/%Y")
+    prompt_text = prompt_template.format(historial=contexto + historial_texto, fecha=fecha_actual)
 
-    # Crear prompt con fecha
-    prompt_text = prompt_template.format(historial=historial_texto, fecha=fecha_actual)
-
-    # Llamar LLM principal con fallback
+    # === 🔹 Llamar al modelo LLM con fallback ===
     try:
         respuesta = llm.invoke(prompt_text)
         texto_final = respuesta.content if hasattr(respuesta, "content") else str(respuesta)
@@ -121,7 +138,7 @@ def generar_auditoria():
         print("❌ Error en Groq LLM:", e)
         texto_final = llm_huggingface_fallback(prompt_text)
 
-    # === Limpiar el archivo JSON después de usarlo ===
+    # === 🔹 Limpiar el archivo JSON después de usarlo ===
     try:
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump([], f, ensure_ascii=False, indent=2)
@@ -130,6 +147,7 @@ def generar_auditoria():
         print("❌ Error al limpiar el archivo JSON:", e)
 
     return texto_final
+
 
 # ========================
 # 5. CLI opcional para pruebas
